@@ -1,0 +1,13 @@
+{
+  "name": "fossil-delta",
+  "url" : "https://github.com/gamestdio/colyseus-hx/",
+  "license": "MIT",
+  "tags": ["fossil", "delta", "diff", "patch"],
+  "description": "An efficient delta compression algorithm.",
+  "version": "0.1.0",
+  "classPath": "src/",
+  "releasenote": "Initial release, everything is working correctly.",
+  "contributors": ["Endel Dreyer"],
+  "dependencies": {}
+}
+
