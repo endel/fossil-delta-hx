@@ -85,21 +85,21 @@ class FossilDelta {
           case '@':
             ofst = zDelta.getInt();
             if (zDelta.haveBytes() && zDelta.getChar() !== ',')
-              throw new Error('copy command not terminated by \',\'');
+              throw "copy command not terminated by ','";
             total += cnt;
             if (total > limit)
-              throw new Error('copy exceeds output file size');
+              throw 'copy exceeds output file size';
             if (ofst+cnt > lenSrc)
-              throw new Error('copy extends past end of input');
+              throw 'copy extends past end of input';
             zOut.putArray(src, ofst, ofst+cnt);
             break;
 
           case ':':
             total += cnt;
             if (total > limit)
-              throw new Error('insert command gives an output larger than predicted');
+              throw 'insert command gives an output larger than predicted';
             if (cnt > lenDelta)
-              throw new Error('insert count exceeds size of delta');
+              throw 'insert count exceeds size of delta';
             zOut.putArray(zDelta.a, zDelta.pos, zDelta.pos+cnt);
             zDelta.pos += cnt;
             break;
@@ -107,16 +107,17 @@ class FossilDelta {
           case ';':
             var out = zOut.toArray();
             if ((!opts || opts.verifyChecksum !== false) && cnt !== checksum(out))
-              throw new Error('bad checksum');
+              throw 'bad checksum';
             if (total !== limit)
-              throw new Error('generated size does not match predicted size');
+              throw 'generated size does not match predicted size';
             return out;
 
           default:
-            throw new Error('unknown delta operator');
+            throw 'unknown delta operator';
         }
       }
-      throw new Error('unterminated delta');
+
+      throw 'unterminated delta';
     }
 
 }
