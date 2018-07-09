@@ -2,10 +2,10 @@ package io.gamestd;
 
 // Reader reads bytes, chars, ints from array.
 class Reader {
-    private var a: Array<Int>; // source array
-    private var pos: Int; // current position in array
+    public var a: Array<Int>; // source array
+    public var pos: Int; // current position in array
 
-    private function new (array: Array<Int>) {
+    public function new (array: Array<Int>) {
         this.a = array;
         this.pos = 0;
     }
@@ -14,7 +14,7 @@ class Reader {
         return this.pos < this.a.length;
     }
 
-    public function getByte () {
+    public function getByte (): Int {
         var b = this.a[this.pos];
         this.pos++;
         if (this.pos > this.a.length) throw "out of bounds";
@@ -28,16 +28,19 @@ class Reader {
     public function getInt () {
         var v = 0, c;
 
-        while(this.haveBytes() && (c = FossilDelta.zValue[0x7f & this.getByte()]) >= 0) {
+        while (this.haveBytes()) {
+            c = FossilDelta.zValue[0x7f & this.getByte()];
+
+            if (c < 0) {
+                break;
+            }
+
             v = (v<<6) + c;
         }
 
         this.pos--;
+
         return v >>> 0;
     }
 
 }
-
-// Read base64-encoded unsigned integer.
-Reader.prototype.getInt = function(){
-};

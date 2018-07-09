@@ -6,7 +6,7 @@
   "description": "An efficient delta compression algorithm.",
   "version": "0.1.0",
   "classPath": "src/",
-  "releasenote": "Initial release, everything is working correctly.",
+  "releasenote": "View repository / changelog for details.",
   "contributors": ["Endel Dreyer"],
   "dependencies": {}
 }

@@ -2,9 +2,9 @@ package io.gamestd;
 
 // Write writes an array.
 class Writer {
-    private var a: Array<Int>;
+    public var a: Array<Int>;
 
-    private function new () {
+    public function new () {
         this.a = [];
     }
 
@@ -17,29 +17,41 @@ class Writer {
     }
 
     // Write an ASCII character (s is a one-char string).
-    public function putChar (s) {
+    public function putChar (s: String) {
         this.putByte(s.charCodeAt(0));
     }
 
     // Write a base64 unsigned integer.
     public function putInt (v){
-        var i: Int, j: Int, zBuf: Array<Int> = [];
+        var i: Int = 0;
+        var j: Int;
+        var zBuf: Array<Int> = [];
 
-        if (v === 0) {
+        if (v == 0) {
             this.putChar('0');
             return;
         }
 
-        for (i = 0; v > 0; i++, v >>>= 6)
-            zBuf.push(zDigits[v&0x3f]);
+        while (v > 0) {
+            zBuf.push(FossilDelta.zDigits[v&0x3f]);
+            i++;
+            v >>>= 6;
+        }
 
-        for (j = i-1; j >= 0; j--)
+        j = i-1;
+        while (j >= 0) {
             this.putByte(zBuf[j]);
+            j--;
+        }
     }
 
     // Copy from array at start to end.
     public function putArray (a: Array<Int>, start: Int, end: Int) {
-        for (var i = start; i < end; i++) this.a.push(a[i]);
+        var i: Int = start;
+        while (i < end) {
+            this.a.push(a[i]);
+            i++;
+        }
     }
 
 }
