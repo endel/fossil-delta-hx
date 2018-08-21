@@ -1,4 +1,5 @@
 package io.gamestd;
+import haxe.io.Bytes;
 
 class FossilDelta {
 
@@ -20,54 +21,54 @@ class FossilDelta {
     ];
 
     // Return a 32-bit checksum of the array.
-    private static function checksum(arr: Array<Int>) {
+    private static function checksum(arr: Bytes) {
       var sum0 = 0, sum1 = 0, sum2 = 0, sum3 = 0,
           z = 0, N = arr.length;
 
       //TODO measure if this unrolling is helpful.
       while (N >= 16) {
-        sum0 = sum0 + arr[z+0] | 0;
-        sum1 = sum1 + arr[z+1] | 0;
-        sum2 = sum2 + arr[z+2] | 0;
-        sum3 = sum3 + arr[z+3] | 0;
+        sum0 = sum0 + arr.get(z+0) | 0;
+        sum1 = sum1 + arr.get(z+1) | 0;
+        sum2 = sum2 + arr.get(z+2) | 0;
+        sum3 = sum3 + arr.get(z+3) | 0;
 
-        sum0 = sum0 + arr[z+4] | 0;
-        sum1 = sum1 + arr[z+5] | 0;
-        sum2 = sum2 + arr[z+6] | 0;
-        sum3 = sum3 + arr[z+7] | 0;
+        sum0 = sum0 + arr.get(z+4) | 0;
+        sum1 = sum1 + arr.get(z+5) | 0;
+        sum2 = sum2 + arr.get(z+6) | 0;
+        sum3 = sum3 + arr.get(z+7) | 0;
 
-        sum0 = sum0 + arr[z+8] | 0;
-        sum1 = sum1 + arr[z+9] | 0;
-        sum2 = sum2 + arr[z+10] | 0;
-        sum3 = sum3 + arr[z+11] | 0;
+        sum0 = sum0 + arr.get(z+8) | 0;
+        sum1 = sum1 + arr.get(z+9) | 0;
+        sum2 = sum2 + arr.get(z+10) | 0;
+        sum3 = sum3 + arr.get(z+11) | 0;
 
-        sum0 = sum0 + arr[z+12] | 0;
-        sum1 = sum1 + arr[z+13] | 0;
-        sum2 = sum2 + arr[z+14] | 0;
-        sum3 = sum3 + arr[z+15] | 0;
+        sum0 = sum0 + arr.get(z+12) | 0;
+        sum1 = sum1 + arr.get(z+13) | 0;
+        sum2 = sum2 + arr.get(z+14) | 0;
+        sum3 = sum3 + arr.get(z+15) | 0;
 
         z += 16;
         N -= 16;
       }
       while (N >= 4) {
-        sum0 = sum0 + arr[z+0] | 0;
-        sum1 = sum1 + arr[z+1] | 0;
-        sum2 = sum2 + arr[z+2] | 0;
-        sum3 = sum3 + arr[z+3] | 0;
+        sum0 = sum0 + arr.get(z+0) | 0;
+        sum1 = sum1 + arr.get(z+1) | 0;
+        sum2 = sum2 + arr.get(z+2) | 0;
+        sum3 = sum3 + arr.get(z+3) | 0;
         z += 4;
         N -= 4;
       }
       sum3 = (((sum3 + (sum2 << 8) | 0) + (sum1 << 16) | 0) + (sum0 << 24) | 0);
       // jshint -W086
       switch (N) {
-        case 3: sum3 = sum3 + (arr[z+2] <<  8) | 0; // falls through
-        case 2: sum3 = sum3 + (arr[z+1] << 16) | 0; // falls through
-        case 1: sum3 = sum3 + (arr[z+0] << 24) | 0; // falls through
+        case 3: sum3 = sum3 + (arr.get(z+2) <<  8) | 0; // falls through
+        case 2: sum3 = sum3 + (arr.get(z+1) << 16) | 0; // falls through
+        case 1: sum3 = sum3 + (arr.get(z+0) << 24) | 0; // falls through
       }
       return sum3 >>> 0;
     }
 
-    public static function Apply (src: Array<Int>, delta: Array<Int>, verifyChecksum: Bool = false) {
+    public static function Apply (src: Bytes, delta: Bytes, verifyChecksum: Bool = false) {
       var limit: Int;
       var total = 0;
       var zDelta = new Reader(delta);
@@ -108,7 +109,7 @@ class FossilDelta {
             if (cnt > lenDelta)
               throw 'insert count exceeds size of delta';
 
-            zOut.putArray(zDelta.a, zDelta.pos, zDelta.pos+cnt);
+            zOut.putArray(zDelta.bytes, zDelta.pos, zDelta.pos+cnt);
             zDelta.pos += cnt;
 
         } else if (char == ';') {

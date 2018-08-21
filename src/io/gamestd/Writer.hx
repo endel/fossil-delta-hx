@@ -1,19 +1,22 @@
 package io.gamestd;
 
+import haxe.io.Bytes;
+import haxe.io.BytesBuffer;
+
 // Write writes an array.
 class Writer {
-    public var a: Array<Int>;
+    public var a: BytesBuffer;
 
     public function new () {
-        this.a = [];
+        this.a = new BytesBuffer();
     }
 
     public function toArray () {
-        return this.a;
+        return this.a.getBytes();
     }
 
     public function putByte (b) {
-        this.a.push(b & 0xff);
+        this.a.addByte(b & 0xff);
     }
 
     // Write an ASCII character (s is a one-char string).
@@ -46,10 +49,10 @@ class Writer {
     }
 
     // Copy from array at start to end.
-    public function putArray (a: Array<Int>, start: Int, end: Int) {
+    public function putArray (a: Bytes, start: Int, end: Int) {
         var i: Int = start;
         while (i < end) {
-            this.a.push(a[i]);
+            this.a.addByte(a.get(i));
             i++;
         }
     }

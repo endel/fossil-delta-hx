@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["fossil", "delta", "diff", "patch"],
   "description": "An efficient delta compression algorithm.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "classPath": "src/",
   "releasenote": "View repository / changelog for details.",
-  "contributors": ["Endel Dreyer"],
+  "contributors": ["endel"],
   "dependencies": {}
 }

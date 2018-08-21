@@ -1,24 +1,25 @@
 package io.gamestd;
+import haxe.io.Bytes;
 
 // Reader reads bytes, chars, ints from array.
 class Reader {
-    public var a: Array<Int>; // source array
+    public var bytes: Bytes; // source array
     public var pos: Int; // current position in array
 
-    public function new (array: Array<Int>) {
-        this.a = array;
+    public function new (array: Bytes) {
+        this.bytes = array;
         this.pos = 0;
     }
 
     public function haveBytes () {
-        return this.pos < this.a.length;
+        return this.pos < this.bytes.length;
     }
 
     public function getByte (): Int {
-        var b = this.a[this.pos];
+        var value = this.bytes.get(this.pos);
         this.pos++;
-        if (this.pos > this.a.length) throw "out of bounds";
-        return b;
+        if (this.pos > this.bytes.length) throw "out of bounds";
+        return value;
     }
 
     public function getChar () {
