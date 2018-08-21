@@ -16,6 +16,7 @@ a related artifact.
 Other implementations:
 
 - [C#](https://github.com/endel/FossilDelta/)
+- [Python](https://github.com/ggicci/python-fossil-delta)
 - [JavaScript](https://github.com/dchest/fossil-delta-js) ([Online demo](https://dchest.github.io/fossil-delta-js/))
 
 ## LIMITATIONS
